@@ -1,0 +1,15 @@
+{
+  "name": "youchoose",
+  "version": "1.0.0",
+  "description": "- **Author:** Fábio Romeiro",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc -w"
+  },
+  "author": "FabioRomeiro",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.5.3"
+  }
+}
