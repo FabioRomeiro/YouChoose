@@ -1,13 +1,9 @@
 class Restaurant {
 
-  private _registDate;
-  private _name;
-  private _price;
-  
-  constructor(name, price) {
+  private _registDate: Date;
+
+  constructor(private _name: string, private _price: number) {
     this._registDate = new Date();
-    this._name  = name;
-    this._price  = price;
   }
 
   get registDate() {
