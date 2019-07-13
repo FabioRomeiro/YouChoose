@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc -w"
+    "ts": "tsc -w",
+    "sass": "sass --watch app/scss/_styles.scss:app/css/styles.css --style compressed"
   },
   "author": "FabioRomeiro",
   "license": "ISC",

@@ -1,0 +1,26 @@
+// IMPROVISING :D
+
+i.custom-icon {
+
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &.heart {
+    background-image: url('../assets/icons/heart.svg');
+  }
+
+  &.list {
+    background-image: url('../assets/icons/list.svg');
+  }
+
+  &.eye {
+    background-image: url('../assets/icons/eye.svg');
+  }
+
+  &.eye-stroke {
+    background-image: url('../assets/icons/eye-stroke.svg');
+  }
+}
