@@ -6,11 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts": "tsc -w",
-    "sass": "sass --watch app/scss/_styles.scss:app/css/styles.css --style compressed"
+    "sass": "sass --watch app/scss/_styles.scss:app/css/styles.css --style compressed",
+    "gulp": "gulp",
+    "dev": "npm run gulp server"
   },
   "author": "FabioRomeiro",
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "sass": "^1.22.4",
     "typescript": "^3.5.3"
   }
 }
