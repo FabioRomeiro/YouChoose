@@ -19,6 +19,12 @@
     background-size: cover; 
   }
 
+  &__header,
+  &__content,
+  &__footer {
+    margin: 0 24px;
+  }
+
   &__header {
 
     grid-area: header;
@@ -32,8 +38,6 @@
     text-align: center;
     font-size: 16px;
     
-    padding: 0 24px;
-    
     .title {
       font-family: Fredoka;
       font-size: 44px;
@@ -46,12 +50,45 @@
   }
   
   &__content {
+
     grid-area: content;
-    background: blue;
+
+    .action-menu {
+
+      display: flex;
+      justify-content: space-between;
+
+      width: 100%;
+
+      padding: 8px;
+
+      .editor-actions {
+
+        display: flex;
+        flex-direction: column;
+
+        .btn {
+          margin: 4px 0;
+        }
+      }
+
+      .run-action {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        flex-grow: 1;
+        
+        margin-left: 16px;
+      }
+    }
   }
   
   &__footer {
+
     grid-area: footer;
-    background: red;
+
+    color: $color-white;
   }
 }

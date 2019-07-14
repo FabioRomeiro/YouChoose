@@ -5,22 +5,44 @@ i.custom-icon {
   display: block;
   width: 14px;
   height: 14px;
-  background-repeat: no-repeat;
-  background-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  background-color: $color-white;
 
   &.heart {
-    background-image: url('../assets/icons/heart.svg');
+    -webkit-mask-image: url('../assets/icons/heart.svg');
+    mask-image: url('../assets/icons/heart.svg');
   }
 
   &.list {
-    background-image: url('../assets/icons/list.svg');
+    -webkit-mask-image: url('../assets/icons/list.svg');
+    mask-image: url('../assets/icons/list.svg');
   }
 
   &.eye {
-    background-image: url('../assets/icons/eye.svg');
+    -webkit-mask-image: url('../assets/icons/eye.svg');
+    mask-image: url('../assets/icons/eye.svg');
   }
 
   &.eye-stroke {
-    background-image: url('../assets/icons/eye-stroke.svg');
+    -webkit-mask-image: url('../assets/icons/eye-stroke.svg');
+    mask-image: url('../assets/icons/eye-stroke.svg');
+  }
+
+  &.minus {
+    -webkit-mask-image: url('../assets/icons/minus.svg');
+    mask-image: url('../assets/icons/minus.svg');
+  }
+
+  &.plus {
+    -webkit-mask-image: url('../assets/icons/plus.svg');
+    mask-image: url('../assets/icons/plus.svg');
+  }
+
+  &.pencil {
+    -webkit-mask-image: url('../assets/icons/pencil.svg');
+    mask-image: url('../assets/icons/pencil.svg');
   }
 }

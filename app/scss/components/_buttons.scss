@@ -1,0 +1,94 @@
+.btn {
+
+  border: none;
+  background: none;
+  border-radius: 50px;
+  padding: 4px 10px;
+  font-family: Chewy;
+  font-size: 14px;
+  color: $color-white;
+  cursor: pointer;
+
+  @mixin box-shadow-3d($color: $color-black) {
+    box-shadow: 1px 2px 0 darken($color, 15);
+    transform: translate(0,0);
+    transition: box-shadow .2s ease-in-out,
+                transform .2s ease-in-out; 
+
+    &:active {
+      box-shadow: 0 0 0 darken($color, 15);
+      transform: translate(1px,2px);
+    }
+  }
+
+  @mixin set-color-properties($color) {
+
+    background-color: $color;
+
+    &.btn--3d {
+      @include box-shadow-3d($color);
+    }
+
+    &.btn--icon {
+      .custom-icon {
+        background-color: $color;
+      }
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &--blue {
+    @include set-color-properties($color-blue-3);
+  }
+
+  &--light-blue {
+    @include set-color-properties($color-blue-2);
+  }
+
+  &--red {
+    @include set-color-properties($color-red);
+  }
+
+  &--yellow {
+    @include set-color-properties($color-yellow);
+  }
+
+  &--icon {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    &::before {
+
+      content: '';
+      
+      position: absolute;
+      right: 9px;
+      
+      width: 16px;
+      height: 16px;
+      
+      border-radius: 50px;
+      
+      background: $color-white;
+    }
+
+    .custom-icon {
+      margin: 0 3px 0 12px;
+
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  &--circle {
+    width: 72px;
+    height: 72px;
+    text-transform: uppercase;
+  }
+}
