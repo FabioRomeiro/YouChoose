@@ -1,6 +1,12 @@
 body {
   background-color: $color-blue-1;
+  
   font-family: Chewy, sans-serif;
   color: $color-black;
   font-size: 14px;
+  line-height: 1.3;
+}
+
+.hide {
+  display: none !important;
 }

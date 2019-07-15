@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts": "tsc -w",
-    "sass": "sass --watch app/scss/_styles.scss:app/css/styles.css --style compressed",
     "gulp": "gulp",
     "dev": "npm run gulp server"
   },

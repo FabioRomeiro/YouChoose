@@ -1,9 +1,13 @@
-class Restaurant {
+export class Restaurant {
 
   private _registDate: Date;
+  private _active: Boolean;
+  private _id: number;
 
   constructor(private _name: string, private _price: number) {
     this._registDate = new Date();
+    this._active = true;
+    this._id = Math.round(Math.random() * 10000);
   }
 
   get registDate() {
@@ -14,7 +18,27 @@ class Restaurant {
     return this._name;
   }
 
+  set name(name: string) {
+    this._name = name;
+  }
+
   get price() {
     return this._price;
+  }
+
+  set price(price: number) {
+    this._price = price;
+  }
+
+  get active() {
+    return this._active;
+  }
+
+  set active(status: Boolean) {
+    this._active = status;
+  }
+
+  get id() {
+    return this._id;
   }
 }

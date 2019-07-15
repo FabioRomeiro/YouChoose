@@ -28,11 +28,6 @@ gulp.task('imagemin', () => {
     .pipe(gulp.dest('dist/assets/images'));
 });
 
-gulp.task('fonts', () => {
-  gulp.src('src/assets/fonts/**/*')
-    .pipe(gulp.dest('dist/assets/fonts'));
-});
-
 gulp.task('sass', () =>
   gulp.src('src/sass/styles.scss')
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
@@ -41,28 +36,37 @@ gulp.task('sass', () =>
     .pipe(gulp.dest('dist/css/'))
 );
 
+gulp.task('html', () =>
+  gulp.src('src/**/*.html')
+    .pipe(gulp.dest('dist/'))
+);
+
 gulp.task('ts', () =>
   tsProject.src()
     .pipe(tsProject())
+    .on('error', error => {
+      console.log('Typescript compilation error: ' + error);
+    })
     .js
     .pipe(gulp.dest('dist/js/'))
 );
 
 gulp.task('build', ['copy'], () => {
-  gulp.start('sass','ts', 'imagemin', 'fonts');
+  gulp.start('sass','ts', 'imagemin');
 });
 
 gulp.task('default', ['build']);
 
-gulp.task('server', ['sass', 'ts'], () => {
+gulp.task('server', ['build'], () => {
   browserSync.init({
     server: {
-      baseDir: 'src'
+      baseDir: 'dist'
     }
   });
 
   gulp.watch('src/sass/**/*.scss', ['sass']);
   gulp.watch('src/ts/**/*.ts', ['ts']);
+  gulp.watch('src/**/*.html', ['html']);
 
   gulp.watch('src/**/*').on('change', browserSync.reload);
 });

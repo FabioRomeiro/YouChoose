@@ -1,14 +1,47 @@
-class RestaurantsView extends View<Restaurants> {
+import { View } from './index';
+import { Restaurants } from '../models/Restaurants';
+
+export class RestaurantsView extends View<Restaurants> {
+
+  private _getDollars(price: number) : string {
+    
+    let dollars = '';
+    
+    price = price > 5 ? 5 : price;
+    price = price <= 0 ? 1 : price;
+
+    for (let i = price; i > 0 ; i--) {
+      dollars += '$';
+    }
+
+    return dollars;
+  }
+
+  private _getRestaurantsHTMLItems(models: Restaurants) {
+    if (!models.length()) {
+
+      return `
+        <li class="options-item empty">
+          <span>It has no items yet, try adding one</span>
+        </li>
+      `;
+    } else {
+
+      return models.toArray().map(model =>
+        `<li class="options-item" data-item-id="${ model.id }">
+          <a class="eye-icon" href>
+            <i class="custom-icon eye${ model.active ? '-stroke' : ''}"></i>
+          </a>
+          <span class="name">${ model.name}</span>
+          <span class="budget">${ this._getDollars(model.price)}</span>
+        </li>`
+      ).join('');
+    }
+  }
 
   template(models: Restaurants): string {
     return `
-      <div>
-        <ul>
-          ${models.toArray().map(model => 
-            `<li>${model.name}</li>`
-          ).join('')}
-        </ul>
-      </div>
+      ${ this._getRestaurantsHTMLItems(models) }
     `;
   }
 }

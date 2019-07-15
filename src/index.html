@@ -12,7 +12,7 @@
     <div class="landing__border"></div>
     <header class="landing__header">
         <h1 class="title">You Choose</h1>
-        <h2 class="subtitle">Tell me your options and I pick up one for you :D</h2>
+        <h2 class="subtitle">Tell me your options and I'll pick one for you :D</h2>
     </header>
     <article class="landing__content">
       <div class="card">
@@ -20,27 +20,21 @@
           <i class="custom-icon list"></i>
           <h3>Your options</h3>
         </div>
-        <div class="card_content">
-          <ul class="options-list">
-            <li class="options-item" disabled>
-              <a class="eye-icon" href><i class="custom-icon eye-stroke"></i></a>
-              <span class="name">McDonald's</span>
-              <span class="budget">$$$</span>
-            </li>
-          </ul>
+        <div class="card__content">
+          <ul class="options-list" data-options-list></ul>
         </div>
         <div class="card__footer">
-          <div class="action-menu">
+          <div class="action-menu" data-feature="menu">
             <div class="editor-actions">
-              <button class="btn btn--blue btn--icon btn--3d">
+              <button class="btn btn--blue btn--icon btn--3d" data-button="add" >
                 <span>Add a new one</span>
                 <i class="custom-icon plus"></i>
               </button>
-              <button class="btn btn--red btn--icon btn--3d">
+              <button class="btn btn--red btn--icon btn--3d" data-button="remove">
                 <span>Remove mode</span>
                 <i class="custom-icon minus"></i>
               </button>
-              <button class="btn btn--yellow btn--icon btn--3d">
+              <button class="btn btn--yellow btn--icon btn--3d" data-button="edit">
                 <span>Edit one</span>
                 <i class="custom-icon pencil"></i>
               </button>
@@ -50,6 +44,18 @@
                 Choose!
               </button>
             </div>
+          </div>
+          <div class="add-edit-form hide" data-feature="add-edit">
+            <form data-form>
+              <input type="hidden" data-form-input="id">
+              <input type="text" data-form-input="name">
+              <input type="number" data-form-input="price">
+              <input type="submit" value="Add!">
+              <input data-button="menu" type="button" value="cancel">
+            </form>
+          </div>
+          <div class="remove-mode hide" data-feature="remove">
+            TA REMOVENDO BITCH
           </div>
         </div>
       </div>
@@ -71,11 +77,11 @@
       </div>
     </footer>
   </div>
-
-  <script src="js/models/Restaurant.js"></script>
-  <script src="js/models/Restaurants.js"></script>
-  <script src="js/views/RestaurantsView.js"></script>
-  <script src="js/controllers/RestaurantController.js"></script>
-  <script src="js/app.js"></script>
-</body>
+  
+  <script src="lib/system.js"></script>
+  <script>
+    System.defaultJSExtensions = true;
+    System.import('js/app.js').catch(err => console.error(err));
+  </script>
+</body> 
 </html>

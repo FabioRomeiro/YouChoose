@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "outDir": "dist/js",
     "noEmitOnError": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "module": "system"
   },
   "include": [
     "src/ts/**/*"
