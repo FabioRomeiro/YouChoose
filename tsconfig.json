@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "outDir": "app/js",
+    "outDir": "dist/js",
     "noEmitOnError": true,
     "noImplicitAny": true
   },
   "include": [
-    "app/ts/**/*"
+    "src/ts/**/*"
   ]
 }
