@@ -1,0 +1,28 @@
+.range-slider {
+  -webkit-appearance: none;
+  background: $color-blue-3;
+  background: -moz-linear-gradient(left, $color-blue-3 0%, $color-green 100%);
+  background: -webkit-linear-gradient(left, $color-blue-3 0%,$color-green 100%);
+  background: linear-gradient(to right, $color-blue-3 0%,$color-green 100%);
+  height: 2px;
+  border-radius: 9px;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    border-radius: 80px;
+    transition: background-color .2s ease-in; 
+  }
+
+  $colors: ($color-blue-3, #3A9674, #49BA5A, #4EC454, $color-green);
+
+  @for $i from 1 through 5 {
+    &[value="#{$i}"] {
+      &::-webkit-slider-thumb {
+        background-color: nth($colors, $i); 
+      }
+    }
+  }
+}

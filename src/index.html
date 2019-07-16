@@ -45,17 +45,49 @@
               </button>
             </div>
           </div>
-          <div class="add-edit-form hide" data-feature="add-edit">
-            <form data-form>
-              <input type="hidden" data-form-input="id">
-              <input type="text" data-form-input="name">
-              <input type="number" data-form-input="price">
-              <input type="submit" value="Add!">
-              <input data-button="menu" type="button" value="cancel">
+          <div class="add-edit-mode hide" data-feature="add-edit">
+            <form data-form class="form">
+              <input id="id" type="hidden" data-form-input="id">
+              <div class="form-section">
+                <div class="form-field">
+                  <label for="name">Name:</label>
+                  <input 
+                    id="name" 
+                    class="text-input" 
+                    type="text" 
+                    data-form-input="name" 
+                    placeholder="Starbucks">
+                </div>
+                <div class="form-field">
+                  <label for="price">Price: <span data-price-display></span></label>
+                  <input 
+                    id="price" 
+                    class="range-slider"
+                    type="range" 
+                    min="1" 
+                    max="5" 
+                    value="1" 
+                    data-form-input="price">
+                </div>
+              </div>
+              <div class="form-section form-section--buttons">
+                <button data-button="menu" type="button" class="btn btn--red btn--icon btn--3d">
+                  <span>Cancel</span>
+                  <i class="custom-icon x"></i>
+                </button>
+                <button type="submit" class="btn btn--blue btn--icon btn--3d">
+                  <span>Add!</span>
+                  <i class="custom-icon plus"></i>
+                </button>
+              </div>
             </form>
           </div>
           <div class="remove-mode hide" data-feature="remove">
-            TA REMOVENDO BITCH
+            <p>Touch on the items that you want to remove</p>
+            <button data-button="menu" type="button" class="btn btn--green btn--icon btn--3d">
+              <span>I'm done</span>
+              <i class="custom-icon check"></i>
+            </button>
           </div>
         </div>
       </div>

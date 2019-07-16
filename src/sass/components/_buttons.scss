@@ -69,6 +69,10 @@
     @include set-color-properties($color-yellow);
   }
 
+  &--green {
+    @include set-color-properties($color-green);
+  }
+
   &--icon {
 
     display: flex;

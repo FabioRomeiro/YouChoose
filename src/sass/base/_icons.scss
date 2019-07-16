@@ -1,5 +1,12 @@
 // IMPROVISING :D
 
+@mixin mask-image($icon-name) {
+  &.#{$icon-name} {
+    -webkit-mask-image: url('../assets/icons/#{$icon-name}.svg');
+    mask-image: url('../assets/icons/#{$icon-name}.svg');
+  }
+}
+
 i.custom-icon {
 
   display: block;
@@ -11,38 +18,13 @@ i.custom-icon {
   mask-size: cover;
   background-color: $color-white;
 
-  &.heart {
-    -webkit-mask-image: url('../assets/icons/heart.svg');
-    mask-image: url('../assets/icons/heart.svg');
-  }
-
-  &.list {
-    -webkit-mask-image: url('../assets/icons/list.svg');
-    mask-image: url('../assets/icons/list.svg');
-  }
-
-  &.eye {
-    -webkit-mask-image: url('../assets/icons/eye.svg');
-    mask-image: url('../assets/icons/eye.svg');
-  }
-
-  &.eye-stroke {
-    -webkit-mask-image: url('../assets/icons/eye-stroke.svg');
-    mask-image: url('../assets/icons/eye-stroke.svg');
-  }
-
-  &.minus {
-    -webkit-mask-image: url('../assets/icons/minus.svg');
-    mask-image: url('../assets/icons/minus.svg');
-  }
-
-  &.plus {
-    -webkit-mask-image: url('../assets/icons/plus.svg');
-    mask-image: url('../assets/icons/plus.svg');
-  }
-
-  &.pencil {
-    -webkit-mask-image: url('../assets/icons/pencil.svg');
-    mask-image: url('../assets/icons/pencil.svg');
-  }
+  @include mask-image(heart);
+  @include mask-image(list);
+  @include mask-image(eye);
+  @include mask-image(eye-stroke);
+  @include mask-image(minus);
+  @include mask-image(plus);
+  @include mask-image(pencil);
+  @include mask-image(x);
+  @include mask-image(check);
 }
