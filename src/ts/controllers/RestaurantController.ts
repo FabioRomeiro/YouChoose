@@ -26,7 +26,7 @@ export class RestaurantController {
     
     this._priceDisplay = document.querySelector("[data-price-display]");
 
-    this._updateList()
+    this._modeHelper.activateMenuMode(this._toggleFunction.bind(this));
 
     this._inputPrice.oninput = this._updatePriceSlider.bind(this);
     this._updatePriceSlider();
@@ -52,14 +52,16 @@ export class RestaurantController {
     this._priceDisplay.innerHTML = '$'.repeat(parseInt(this._inputPrice.value));
   }
 
+  private _findChild(element: Element, tagName: string): Element {
+    let j: number;
+    for (j = 0; element.childNodes[j].nodeName != tagName.toUpperCase(); j++);
+    return <Element>element.childNodes[j];
+  }
+
   private _setIcon(item: Element, iconName: string): void {
-    let i, j: number;
 
-    for (i = 0; item.childNodes[i].nodeName != 'A'; i++);
-    let anchor = <Element>item.childNodes[i];
-
-    for (j = 0; anchor.childNodes[j].nodeName != 'I'; j++);
-    let icon = <Element>anchor.childNodes[j];
+    let anchor = this._findChild(item, 'A');
+    let icon = this._findChild(anchor, 'I');
 
     icon.classList.remove('eye-stroke', 'eye');
     icon.classList.add(iconName);
@@ -77,7 +79,6 @@ export class RestaurantController {
       if (this._restaurants.length()) {
         item.remove();
       } else {
-        this._updateList();
         this.menuMode(event);
       }
 
@@ -90,10 +91,28 @@ export class RestaurantController {
     let restaurant = this._restaurants.getById(+item.getAttribute('data-item-id'));
 
     item.addEventListener('click', function (event: Event) {
+      event.preventDefault();
+      event.stopPropagation();
+
       this._inputName.value = restaurant.name;
       this._inputPrice.value = restaurant.price;
       this._inputId.value = restaurant.id;
       this._updatePriceSlider();
+    }.bind(this));
+  }
+
+  private _toggleFunction(item: Element): void {
+    
+    let restaurant = this._restaurants.getById(+item.getAttribute('data-item-id'));
+
+    item.addEventListener('click', function (event: Event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      restaurant.toggleActive();
+
+      item.toggleAttribute('disabled');
+      this._setIcon(item, item.hasAttribute('disabled') ? 'eye' : 'eye-stroke');
     }.bind(this));
   }
 
@@ -126,7 +145,8 @@ export class RestaurantController {
 
   public addMode(event: Event): void {
     event.preventDefault();
-    this._modeHelper.activateAddMode();
+    this._modeHelper.activateAddMode(this._toggleFunction.bind(this));
+    this._inputName.focus();
   }
 
   public editMode(event: Event): void {
@@ -145,6 +165,6 @@ export class RestaurantController {
     this._cleanUpFields();
     this._submitButtonLabel.innerHTML = "Add!";
 
-    this._modeHelper.activateMenuMode();
+    this._modeHelper.activateMenuMode(this._toggleFunction.bind(this));
   }
 }

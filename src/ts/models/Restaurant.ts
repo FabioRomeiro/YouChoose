@@ -41,4 +41,8 @@ export class Restaurant {
   get id() {
     return this._id;
   }
+
+  public toggleActive(): void {
+    this._active = !this._active;
+  }
 }

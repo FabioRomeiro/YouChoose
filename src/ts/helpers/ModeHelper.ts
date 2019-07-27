@@ -5,7 +5,13 @@ export class ModeHelper {
   
   constructor(private _updateList: Function, private _editorView: EditorModeView){};
 
-  public activateAddMode(): void {
+  public activateAddMode(toggleFunction: any): void {
+    this._updateList();
+
+    let items = document.querySelectorAll('[data-item]');
+
+    items.forEach(toggleFunction);
+
     this._editorView.activateAddMode();
   }
 
@@ -27,8 +33,13 @@ export class ModeHelper {
     this._editorView.activateRemoveMode();
   }
 
-  public activateMenuMode(): void {
+  public activateMenuMode(toggleFunction: any): void {
     this._updateList();
+
+    let items = document.querySelectorAll('[data-item]');
+
+    items.forEach(toggleFunction);
+
     this._editorView.activateMenuMode();
   }
 }
