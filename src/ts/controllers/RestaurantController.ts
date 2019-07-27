@@ -1,5 +1,6 @@
 import { RestaurantsView, EditorModeView } from '../views/index';
 import { Restaurant, Restaurants } from '../models/index';
+import { ModeHelper } from '../helpers/index';
 
 export class RestaurantController {
 
@@ -9,8 +10,11 @@ export class RestaurantController {
   private _priceDisplay: Element;
 
   private _restaurants = new Restaurants();
+
   private _restaurantsView = new RestaurantsView('[data-options-list]');
   private _editorModeView = new EditorModeView('data-feature');
+
+  private _modeHelper = new ModeHelper(this._updateList.bind(this), this._editorModeView);
 
   constructor() {
     this._inputName = <HTMLInputElement>document.querySelector('[data-form-input=name]');
@@ -19,28 +23,76 @@ export class RestaurantController {
     
     this._priceDisplay = document.querySelector("[data-price-display]");
 
-    this._restaurantsView.update(this._restaurants);
+    this._updateList()
 
     this._inputPrice.oninput = this._updatePriceSlider.bind(this);
     this._updatePriceSlider();
   }
 
-  private cleanUpFields(): void {
+  private _updateList() {
+    this._restaurantsView.update(this._restaurants);
+  }
+
+  private _cleanUpFields(): void {
     this._inputName.value = "";
     this._inputPrice.value = "0";
     this._inputId.value = "";
     this._updatePriceSlider();
   }
 
-  private isFilled() {
+  private _isFilled() {
     return this._inputPrice.value && this._inputName.value;
   }
 
-  submit(event: Event): void {
+  private _updatePriceSlider(): void {
+    this._inputPrice.setAttribute("value", this._inputPrice.value);
+    this._priceDisplay.innerHTML = '$'.repeat(parseInt(this._inputPrice.value));
+  }
+
+  private _setIcon(item: Element, iconName: string): void {
+    let i, j: number;
+
+    for (i = 0; item.childNodes[i].nodeName != 'A'; i++);
+    let anchor = <Element>item.childNodes[i];
+
+    for (j = 0; anchor.childNodes[j].nodeName != 'I'; j++);
+    let icon = <Element>anchor.childNodes[j];
+
+    icon.classList.remove('eye-stroke', 'eye');
+    icon.classList.add(iconName);
+  };
+
+  private _removeFunction(item: Element): void {
+    this._setIcon(item, 'x');
+
+    item.addEventListener('click', function (event: Event) {
+      event.preventDefault();
+      event.stopPropagation();
+      
+      this._restaurants.removeById(item.getAttribute('data-item-id'));
+
+      if (this._restaurants.length()) {
+        item.remove();
+      } else {
+        this._updateList();
+        this.menuMode(event);
+      }
+
+    }.bind(this));
+  }
+
+  private _editFunction(item: Element): void {
+    this._setIcon(item, 'pencil');
+
+    item.addEventListener('click', function (event: Event) {
+    }.bind(this));
+  }
+
+  public submit(event: Event): void {
 
     event.preventDefault();
 
-    if (!this.isFilled()) return;
+    if (!this._isFilled()) return;
     
     let restaurant: Restaurant;
 
@@ -60,37 +112,27 @@ export class RestaurantController {
       this._restaurants.add(restaurant);
     }
 
-    this.cleanUpFields();
-    this._restaurantsView.update(this._restaurants);
+    this._cleanUpFields();
+    this._updateList()
   }
 
-  private _updatePriceSlider(): void {
-    this._inputPrice.setAttribute("value", this._inputPrice.value);
-    this._priceDisplay.innerHTML = '$'.repeat(parseInt(this._inputPrice.value));
-  }
-
-  addMode(event: Event): void {
-    
+  public addMode(event: Event): void {
     event.preventDefault();
-
-    this._editorModeView.activateAddMode();
+    this._modeHelper.activateAddMode();
   }
 
-  editMode(event: Event): void {
+  public editMode(event: Event): void {
     event.preventDefault();
-
-    this._editorModeView.activateEditMode();
+    this._modeHelper.activateEditMode(this._editFunction.bind(this));
   }
 
-  removeMode(event: Event): void {
+  public removeMode(event: Event): void {
     event.preventDefault();
-
-    this._editorModeView.activateRemoveMode();
+    this._modeHelper.activateRemoveMode(this._removeFunction.bind(this));
   }
 
-  menuMode(event: Event): void {
+  public menuMode(event: Event): void {
     event.preventDefault();
-
-    this._editorModeView.activateMenuMode();
+    this._modeHelper.activateMenuMode();
   }
 }

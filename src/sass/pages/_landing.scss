@@ -49,6 +49,10 @@
   
   &__content {
 
+    &,.card {
+      min-height: 327px;
+    }
+
     .card__content {
 
       height: 140px;

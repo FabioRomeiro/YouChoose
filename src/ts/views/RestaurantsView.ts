@@ -28,7 +28,7 @@ export class RestaurantsView extends View<Restaurants> {
     } else {
 
       return models.toArray().map(model =>
-        `<li class="options-item" data-item-id="${ model.id }">
+        `<li class="options-item" data-item data-item-id="${model.id }">
           <a class="eye-icon" href>
             <i class="custom-icon eye${ model.active ? '-stroke' : ''}"></i>
           </a>
