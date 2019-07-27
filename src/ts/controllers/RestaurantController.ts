@@ -8,6 +8,7 @@ export class RestaurantController {
   private _inputPrice: HTMLInputElement;
   private _inputId: HTMLInputElement;
   private _priceDisplay: Element;
+  private _submitButtonLabel: Element;
 
   private _restaurants = new Restaurants();
 
@@ -20,6 +21,8 @@ export class RestaurantController {
     this._inputName = <HTMLInputElement>document.querySelector('[data-form-input=name]');
     this._inputPrice = <HTMLInputElement>document.querySelector('[data-form-input=price]');
     this._inputId = <HTMLInputElement>document.querySelector('[data-form-input=id]');
+
+    this._submitButtonLabel = <Element>document.querySelector('[data-submit-button]').childNodes[1];
     
     this._priceDisplay = document.querySelector("[data-price-display]");
 
@@ -84,7 +87,13 @@ export class RestaurantController {
   private _editFunction(item: Element): void {
     this._setIcon(item, 'pencil');
 
+    let restaurant = this._restaurants.getById(+item.getAttribute('data-item-id'));
+
     item.addEventListener('click', function (event: Event) {
+      this._inputName.value = restaurant.name;
+      this._inputPrice.value = restaurant.price;
+      this._inputId.value = restaurant.id;
+      this._updatePriceSlider();
     }.bind(this));
   }
 
@@ -111,9 +120,8 @@ export class RestaurantController {
 
       this._restaurants.add(restaurant);
     }
-
-    this._cleanUpFields();
-    this._updateList()
+    
+    this.menuMode(event);
   }
 
   public addMode(event: Event): void {
@@ -123,6 +131,7 @@ export class RestaurantController {
 
   public editMode(event: Event): void {
     event.preventDefault();
+    this._submitButtonLabel.innerHTML = "Save!";
     this._modeHelper.activateEditMode(this._editFunction.bind(this));
   }
 
@@ -133,6 +142,9 @@ export class RestaurantController {
 
   public menuMode(event: Event): void {
     event.preventDefault();
+    this._cleanUpFields();
+    this._submitButtonLabel.innerHTML = "Add!";
+
     this._modeHelper.activateMenuMode();
   }
 }
