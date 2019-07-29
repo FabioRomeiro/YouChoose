@@ -116,6 +116,26 @@ export class RestaurantController {
     }.bind(this));
   }
 
+  public raffle(event: Event): void {
+    event.preventDefault();
+
+    const restaurants = this._restaurants.toArray();
+
+    if (!restaurants.length) {
+
+      let emptyMessage = document.querySelector('[data-empty-list]');
+      
+      emptyMessage.classList.add('alert');
+      setTimeout(() => {
+        emptyMessage.classList.remove('alert');
+      }, 5000);
+    } else {
+
+      let choosenIndex = Math.floor(Math.random() * restaurants.length);
+      alert(restaurants[choosenIndex].name);
+    }
+  }
+
   public submit(event: Event): void {
 
     event.preventDefault();

@@ -21,7 +21,7 @@ export class RestaurantsView extends View<Restaurants> {
     if (!models.length()) {
 
       return `
-        <li class="options-item empty">
+        <li data-empty-list class="options-item empty">
           <span>It has no items yet, try adding one</span>
         </li>
       `;

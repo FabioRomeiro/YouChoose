@@ -88,7 +88,12 @@
           }
 
           &.empty {
+            
             text-align: center;
+
+            &.alert {
+              color: $color-red;
+            }
           }
 
           .budget {

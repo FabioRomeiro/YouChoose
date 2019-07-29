@@ -24,3 +24,7 @@ document
 document
   .querySelector('[data-form]')
   .addEventListener('submit', controller.submit.bind(controller));
+
+document
+  .querySelector('[data-raffle-button]')
+  .addEventListener('click', controller.raffle.bind(controller));
