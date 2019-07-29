@@ -55,7 +55,7 @@ export class RestaurantController {
   private _findChild(element: Element, tagName: string): Element {
     let j: number;
     for (j = 0; element.childNodes[j].nodeName != tagName.toUpperCase(); j++);
-    return <Element>element.childNodes[j];
+    return <Element>element.childNodes[j]; 
   }
 
   private _setIcon(item: Element, iconName: string): void {
@@ -68,6 +68,7 @@ export class RestaurantController {
   };
 
   private _removeFunction(item: Element): void {
+
     this._setIcon(item, 'x');
 
     item.addEventListener('click', function (event: Event) {
@@ -88,7 +89,7 @@ export class RestaurantController {
   private _editFunction(item: Element): void {
     this._setIcon(item, 'pencil');
 
-    let restaurant = this._restaurants.getById(+item.getAttribute('data-item-id'));
+    let restaurant = this._restaurants.getById(+item.getAttribute('data-item-id'));;
 
     item.addEventListener('click', function (event: Event) {
       event.preventDefault();
@@ -119,9 +120,7 @@ export class RestaurantController {
   public raffle(event: Event): void {
     event.preventDefault();
 
-    const restaurants = this._restaurants.toArray();
-
-    if (!restaurants.length) {
+    if (!this._restaurants.length()) {
 
       let emptyMessage = document.querySelector('[data-empty-list]');
       
@@ -129,10 +128,23 @@ export class RestaurantController {
       setTimeout(() => {
         emptyMessage.classList.remove('alert');
       }, 5000);
-    } else {
 
-      let choosenIndex = Math.floor(Math.random() * restaurants.length);
-      alert(restaurants[choosenIndex].name);
+    } else if (!this._restaurants.hasActive()) {
+      
+      alert('Nenhum item ativo'); // Implement messager
+
+    } else {
+      
+      this._restaurantsView.toggleRaffling();
+
+      const restaurants = this._restaurants.toArrayOfActive();
+      
+      setTimeout(() => {
+        let choosenIndex = Math.floor(Math.random() * restaurants.length);
+        
+        this._restaurantsView.toggleRaffling();
+        alert(restaurants[choosenIndex].name); // Implement messager
+      }, restaurants.length > 1 ? 5000 : 0);
     }
   }
 
@@ -171,6 +183,7 @@ export class RestaurantController {
 
   public editMode(event: Event): void {
     event.preventDefault();
+    this._updateList();
     this._submitButtonLabel.innerHTML = "Save!";
     this._modeHelper.activateEditMode(this._editFunction.bind(this));
   }

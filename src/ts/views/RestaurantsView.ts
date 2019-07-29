@@ -28,7 +28,7 @@ export class RestaurantsView extends View<Restaurants> {
     } else {
 
       return models.toArray().map(model =>
-        `<li class="options-item" data-item data-item-id="${model.id }">
+        `<li class="options-item" data-item data-item-id="${ model.id }" ${ !model.active ? 'disabled' : '' }>
           <a class="eye-icon" href>
             <i class="custom-icon eye${ model.active ? '-stroke' : ''}"></i>
           </a>
@@ -37,6 +37,10 @@ export class RestaurantsView extends View<Restaurants> {
         </li>`
       ).join('');
     }
+  }
+
+  public toggleRaffling(): void {
+    this._dadElement.classList.toggle('raffling');
   }
 
   template(models: Restaurants): string {

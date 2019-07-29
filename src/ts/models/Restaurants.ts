@@ -4,11 +4,11 @@ export class Restaurants {
   
   private _restaurants: Restaurant[] = [];
 
-  add(restaurant: Restaurant): void {
+  public add(restaurant: Restaurant): void {
     this._restaurants.push(restaurant);
   }
 
-  removeById(id: number): void {
+  public removeById(id: number): void {
     let index: number;
     
     this._restaurants.some((restaurant, i)=> {
@@ -23,15 +23,27 @@ export class Restaurants {
     }
   }
 
-  getById(id: number): Restaurant {
+  public getById(id: number): Restaurant {
     return this._restaurants.filter(restaurant => restaurant.id == id)[0];
   }
 
-  toArray(): Restaurant[] {
+  public toArray(): Restaurant[] {
     return [].concat(this._restaurants);
   }
 
-  length(): number {
+  public toArrayOfActive(): Restaurant[] {
+    return [].concat(this._restaurants.filter(restaurant => restaurant.active));
+  }
+
+  public hasActive(): boolean {
+    return this._restaurants.some(restaurant => restaurant.active);
+  }
+
+  public length(): number {
     return this._restaurants.length;
+  }
+
+  public activeLength(): number {
+    return this._restaurants.filter(restaurant => restaurant.active).length;
   }
 }

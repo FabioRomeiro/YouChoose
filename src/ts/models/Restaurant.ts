@@ -1,7 +1,7 @@
 export class Restaurant {
 
   private _registDate: Date;
-  private _active: Boolean;
+  private _active: boolean;
   private _id: number;
 
   constructor(private _name: string, private _price: number) {
@@ -34,7 +34,7 @@ export class Restaurant {
     return this._active;
   }
 
-  set active(status: Boolean) {
+  set active(status: boolean) {
     this._active = status;
   }
 
