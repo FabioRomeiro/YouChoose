@@ -1,4 +1,4 @@
-import { RestaurantsView, EditorModeView } from '../views/index';
+import { RestaurantsView, EditorModeView, MessengerView } from '../views/index';
 import { Restaurant, Restaurants } from '../models/index';
 import { ModeHelper } from '../helpers/index';
 
@@ -14,6 +14,7 @@ export class RestaurantController {
 
   private _restaurantsView = new RestaurantsView('[data-options-list]');
   private _editorModeView = new EditorModeView('data-feature');
+  private _messengerView = new MessengerView();
 
   private _modeHelper = new ModeHelper(this._updateList.bind(this), this._editorModeView);
 
@@ -58,10 +59,14 @@ export class RestaurantController {
     return <Element>element.childNodes[j]; 
   }
 
-  private _setIcon(item: Element, iconName: string): void {
+  private _setIcon(item: Element, iconName: string, color?: string): void {
 
     let anchor = this._findChild(item, 'A');
     let icon = this._findChild(anchor, 'I');
+
+    if (color) {
+      anchor.classList.add(`color-${ color }`);
+    }
 
     icon.classList.remove('eye-stroke', 'eye');
     icon.classList.add(iconName);
@@ -69,19 +74,27 @@ export class RestaurantController {
 
   private _removeFunction(item: Element): void {
 
-    this._setIcon(item, 'x');
+    this._setIcon(item, 'garbage', 'red');
 
     item.addEventListener('click', function (event: Event) {
       event.preventDefault();
       event.stopPropagation();
+
+      let restaurant = this._restaurants.getById(item.getAttribute('data-item-id'));
       
-      this._restaurants.removeById(item.getAttribute('data-item-id'));
+      this._restaurants.removeById(restaurant.id);
 
       if (this._restaurants.length()) {
         item.remove();
       } else {
         this.menuMode(event);
       }
+
+      this._messengerView.update({
+        type: 'danger',
+        message: `"${ restaurant.name }" has been deleted`,
+        icon: 'garbage'
+      }, 3000);
 
     }.bind(this));
   }
@@ -131,7 +144,11 @@ export class RestaurantController {
 
     } else if (!this._restaurants.hasActive()) {
       
-      alert('Nenhum item ativo'); // Implement messager
+      this._messengerView.update({
+        type: 'warning',
+        message: 'There\'s no active items on the list',
+        icon: 'eye-stroke'
+      }, 5000);
 
     } else {
       
@@ -143,7 +160,12 @@ export class RestaurantController {
         let choosenIndex = Math.floor(Math.random() * restaurants.length);
         
         this._restaurantsView.toggleRaffling();
-        alert(restaurants[choosenIndex].name); // Implement messager
+        this._messengerView.update({
+          type: 'success',
+          message: `The choosen one is "${ restaurants[choosenIndex].name }"`,
+          icon: 'check'
+        }, 10000);
+
       }, restaurants.length > 1 ? 5000 : 0);
     }
   }

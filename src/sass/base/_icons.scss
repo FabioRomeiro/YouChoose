@@ -27,4 +27,5 @@ i.custom-icon {
   @include mask-image(pencil);
   @include mask-image(x);
   @include mask-image(check);
+  @include mask-image(garbage);
 }

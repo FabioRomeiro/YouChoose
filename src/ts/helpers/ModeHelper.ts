@@ -1,5 +1,4 @@
-import { RestaurantsView, EditorModeView } from "../views/index";
-import { Restaurants } from "../models/index";
+import { EditorModeView } from "../views/index";
 
 export class ModeHelper {
   
