@@ -1,33 +1,40 @@
 import { EditorModeView } from "../views/index";
+import { domInject } from "./decorators/index";
 
 export class ModeHelper {
-  
-  constructor(private _updateList: Function, private _editorView: EditorModeView){};
+
+  private _items: NodeListOf<Element>;
+
+  constructor(private _updateList: Function, private _editorView: EditorModeView) { };
+
+  private _reselectItems(): void {
+    this._items = document.querySelectorAll('[data-item]');
+  }
 
   public activateAddMode(toggleFunction: any): void {
     this._updateList();
 
-    let items = document.querySelectorAll('[data-item]');
+    this._reselectItems();
 
-    items.forEach(toggleFunction);
+    this._items.forEach(toggleFunction);
 
     this._editorView.activateAddMode();
   }
 
   public activateEditMode(editFunction: any): void {
 
-    let items = document.querySelectorAll('[data-item]');
+    this._reselectItems();
 
-    items.forEach(editFunction);
+    this._items.forEach(editFunction);
 
     this._editorView.activateEditMode();
   }
 
   public activateRemoveMode(removeFunction: any): void {
 
-    let items = document.querySelectorAll('[data-item]');
+    this._reselectItems();
 
-    items.forEach(removeFunction);
+    this._items.forEach(removeFunction);
 
     this._editorView.activateRemoveMode();
   }
@@ -35,9 +42,9 @@ export class ModeHelper {
   public activateMenuMode(toggleFunction: any): void {
     this._updateList();
 
-    let items = document.querySelectorAll('[data-item]');
+    this._reselectItems();
 
-    items.forEach(toggleFunction);
+    this._items.forEach(toggleFunction);
 
     this._editorView.activateMenuMode();
   }

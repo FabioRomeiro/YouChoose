@@ -19,19 +19,19 @@ export class EditorModeView {
     });
   }
 
-  activateAddMode(): void {
+  public activateAddMode(): void {
     this._showViewMode('add-edit');
   }
 
-  activateEditMode(): void {
+  public activateEditMode(): void {
     this._showViewMode('add-edit');
   }
 
-  activateMenuMode(): void {
+  public activateMenuMode(): void {
     this._showViewMode('menu');
   }
 
-  activateRemoveMode(): void {
+  public activateRemoveMode(): void {
     this._showViewMode('remove');
   }
 

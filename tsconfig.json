@@ -4,7 +4,8 @@
     "outDir": "dist/js",
     "noEmitOnError": true,
     "noImplicitAny": true,
-    "module": "system"
+    "module": "system",
+    "experimentalDecorators": true
   },
   "include": [
     "src/ts/**/*"

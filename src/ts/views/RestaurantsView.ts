@@ -43,7 +43,7 @@ export class RestaurantsView extends View<Restaurants> {
     this._dadElement.classList.toggle('raffling');
   }
 
-  template(models: Restaurants): string {
+  public template(models: Restaurants): string {
     return `
       ${ this._getRestaurantsHTMLItems(models) }
     `;

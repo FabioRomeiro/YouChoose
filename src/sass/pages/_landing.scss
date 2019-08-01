@@ -131,6 +131,19 @@
                 }
               }
             }
+
+            &.color-yellow {
+
+              .custom-icon {
+                background-color: $color-yellow;
+              }
+
+              &:focus {
+                .custom-icon {
+                  background-color: lighten($color-yellow,10);
+                }
+              }
+            }
           }
         }
 

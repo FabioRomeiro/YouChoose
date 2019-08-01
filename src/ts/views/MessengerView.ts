@@ -1,10 +1,14 @@
+import { domInject } from "../helpers/decorators/index";
+
 export class MessengerView {
   
+  @domInject('[data-messenger]')
   protected _dadElement: Element;
 
-  constructor() {
-    this._dadElement = document.querySelector('[data-messenger]');
-  }
+  @domInject('[data-close-message]')
+  private xButton: Element;
+
+  constructor() {}
 
   private template(data: { message: string, type: string, icon?: string }): string {
     return `
@@ -16,7 +20,7 @@ export class MessengerView {
     `;
   }
 
-  update(models: { message: string, type: string, icon?: string }, mls: number): void {
+  public update(models: { message: string, type: string, icon?: string }, mls: number): void {
     
     this._dadElement.innerHTML = this.template(models);
 
@@ -31,9 +35,7 @@ export class MessengerView {
       this._dadElement.classList.remove('appear');
     }
 
-    let x = document.querySelector('[data-close-message]');
-
-    x.removeEventListener('click', closeMessage.bind(this));
-    x.addEventListener('click', closeMessage.bind(this));
+    this.xButton.removeEventListener('click', closeMessage.bind(this));
+    this.xButton.addEventListener('click', closeMessage.bind(this));
   }
 }

@@ -1,17 +1,13 @@
 export class Restaurant {
 
-  private _registDate: Date;
+  readonly registDate: Date;
   private _active: boolean;
-  private _id: number;
+  readonly id: number;
 
   constructor(private _name: string, private _price: number) {
-    this._registDate = new Date();
+    this.registDate = new Date();
     this._active = true;
-    this._id = Math.round(Math.random() * 10000);
-  }
-
-  get registDate() {
-    return this._registDate;
+    this.id = Math.round(Math.random() * 10000);
   }
 
   get name() {
@@ -36,10 +32,6 @@ export class Restaurant {
 
   set active(status: boolean) {
     this._active = status;
-  }
-
-  get id() {
-    return this._id;
   }
 
   public toggleActive(): void {

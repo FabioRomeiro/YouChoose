@@ -1,13 +1,22 @@
 import { RestaurantsView, EditorModeView, MessengerView } from '../views/index';
 import { Restaurant, Restaurants } from '../models/index';
 import { ModeHelper } from '../helpers/index';
+import { logExecutionTime, domInject } from '../helpers/decorators/index';
 
 export class RestaurantController {
 
+  @domInject('[data-form-input=name]')
   private _inputName: HTMLInputElement;
-  private _inputPrice: HTMLInputElement;
+
+  @domInject('[data-form-input=id]')
   private _inputId: HTMLInputElement;
+
+  @domInject('[data-form-input=price]')
+  private _inputPrice: HTMLInputElement;
+  
+  @domInject('[data-price-display]')
   private _priceDisplay: Element;
+
   private _submitButtonLabel: Element;
 
   private _restaurants = new Restaurants();
@@ -19,14 +28,9 @@ export class RestaurantController {
   private _modeHelper = new ModeHelper(this._updateList.bind(this), this._editorModeView);
 
   constructor() {
-    this._inputName = <HTMLInputElement>document.querySelector('[data-form-input=name]');
-    this._inputPrice = <HTMLInputElement>document.querySelector('[data-form-input=price]');
-    this._inputId = <HTMLInputElement>document.querySelector('[data-form-input=id]');
 
     this._submitButtonLabel = <Element>document.querySelector('[data-submit-button]').childNodes[1];
     
-    this._priceDisplay = document.querySelector("[data-price-display]");
-
     this._modeHelper.activateMenuMode(this._toggleFunction.bind(this));
 
     this._inputPrice.oninput = this._updatePriceSlider.bind(this);
@@ -100,7 +104,7 @@ export class RestaurantController {
   }
 
   private _editFunction(item: Element): void {
-    this._setIcon(item, 'pencil');
+    this._setIcon(item, 'pencil', 'yellow');
 
     let restaurant = this._restaurants.getById(+item.getAttribute('data-item-id'));;
 

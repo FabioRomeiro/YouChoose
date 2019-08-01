@@ -28,11 +28,11 @@ export class Restaurants {
   }
 
   public toArray(): Restaurant[] {
-    return [].concat(this._restaurants);
+    return ([] as Restaurant[]).concat(this._restaurants);
   }
 
   public toArrayOfActive(): Restaurant[] {
-    return [].concat(this._restaurants.filter(restaurant => restaurant.active));
+    return ([] as Restaurant[]).concat(this._restaurants.filter(restaurant => restaurant.active));
   }
 
   public hasActive(): boolean {
