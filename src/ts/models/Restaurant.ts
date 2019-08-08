@@ -4,10 +4,11 @@ export class Restaurant {
   private _active: boolean;
   readonly id: number;
 
-  constructor(private _name: string, private _price: number) {
+  constructor(private _name: string, private _price: number, active?: boolean, id?: number) {
     this.registDate = new Date();
-    this._active = true;
-    this.id = Math.round(Math.random() * 10000);
+    this._active = active != undefined ? active : true;
+
+    this.id = id || Math.round(Math.random() * 10000);
   }
 
   get name() {

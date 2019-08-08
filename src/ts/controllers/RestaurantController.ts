@@ -2,6 +2,8 @@ import { RestaurantsView, EditorModeView, MessengerView } from '../views/index';
 import { Restaurant, Restaurants } from '../models/index';
 import { ModeHelper } from '../helpers/index';
 import { logExecutionTime, domInject } from '../helpers/decorators/index';
+import { ConnectionFactory } from '../services/ConnectionFactory';
+import { RestaurantDAO } from '../DAO/index';
 
 export class RestaurantController {
 
@@ -27,12 +29,32 @@ export class RestaurantController {
 
   private _modeHelper = new ModeHelper(this._updateList.bind(this), this._editorModeView);
 
+  private _restaurantDao: RestaurantDAO;
+
   constructor() {
+
+    ConnectionFactory
+      .getConnection()
+      .then(connection => {
+        this._restaurantDao = new RestaurantDAO(connection);
+        return this._restaurantDao.list();
+      })
+      .then(restaurants => {
+
+        restaurants.forEach(restaurant =>
+          this._restaurants.add(
+            new Restaurant(restaurant._name, restaurant._price, restaurant._active, restaurant.id)
+          )
+        );
+
+        this._modeHelper.activateMenuMode(this._toggleFunction.bind(this));
+      })
+      .catch(() => {
+        throw new Error('Connection with indexedDB failed');
+      });
 
     this._submitButtonLabel = <Element>document.querySelector('[data-submit-button]').childNodes[1];
     
-    this._modeHelper.activateMenuMode(this._toggleFunction.bind(this));
-
     this._inputPrice.oninput = this._updatePriceSlider.bind(this);
     this._updatePriceSlider();
   }
@@ -86,20 +108,23 @@ export class RestaurantController {
 
       let restaurant = this._restaurants.getById(item.getAttribute('data-item-id'));
       
-      this._restaurants.removeById(restaurant.id);
+      this._restaurantDao
+        .removeById(restaurant.id)
+        .then(() => {
+          this._restaurants.removeById(restaurant.id);
+          
+          if (this._restaurants.length()) {
+            item.remove();
+          } else {
+            this.menuMode(event);
+          }
 
-      if (this._restaurants.length()) {
-        item.remove();
-      } else {
-        this.menuMode(event);
-      }
-
-      this._messengerView.update({
-        type: 'danger',
-        message: `"${ restaurant.name }" has been deleted`,
-        icon: 'garbage'
-      }, 3000);
-
+          this._messengerView.update({
+            type: 'danger',
+            message: `"${restaurant.name}" has been deleted`,
+            icon: 'garbage'
+          }, 3000);
+        });
     }.bind(this));
   }
 
@@ -128,6 +153,8 @@ export class RestaurantController {
       event.stopPropagation();
 
       restaurant.toggleActive();
+
+      this._restaurantDao.update(restaurant);
 
       item.toggleAttribute('disabled');
       this._setIcon(item, item.hasAttribute('disabled') ? 'eye' : 'eye-stroke');
@@ -170,11 +197,11 @@ export class RestaurantController {
           icon: 'check'
         }, 10000);
 
-      }, restaurants.length > 1 ? 5000 : 0);
+      }, restaurants.length > 1 ? 3000 : 0);
     }
   }
 
-  public submit(event: Event): void {
+  public submit(event: Event): Promise<string> {
 
     event.preventDefault();
 
@@ -187,6 +214,10 @@ export class RestaurantController {
       restaurant = this._restaurants.getById(parseInt(this._inputId.value));
       restaurant.name = this._inputName.value;
       restaurant.price = parseInt(this._inputPrice.value);
+
+      this._restaurantDao
+        .update(restaurant)
+        .then(() => this.menuMode(event));
       
     } else {
 
@@ -195,10 +226,13 @@ export class RestaurantController {
         parseInt(this._inputPrice.value)
       );
 
-      this._restaurants.add(restaurant);
-    }
-    
-    this.menuMode(event);
+      this._restaurantDao
+        .add(restaurant)
+        .then(() => {
+          this._restaurants.add(restaurant)
+          this.menuMode(event);
+        });
+    }    
   }
 
   public addMode(event: Event): void {
@@ -223,7 +257,6 @@ export class RestaurantController {
     event.preventDefault();
     this._cleanUpFields();
     this._submitButtonLabel.innerHTML = "Add!";
-
     this._modeHelper.activateMenuMode(this._toggleFunction.bind(this));
   }
 }

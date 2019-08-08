@@ -22,6 +22,7 @@ export class ModeHelper {
   }
 
   public activateEditMode(editFunction: any): void {
+    this._updateList();
 
     this._reselectItems();
 
@@ -31,7 +32,8 @@ export class ModeHelper {
   }
 
   public activateRemoveMode(removeFunction: any): void {
-
+    this._updateList();
+    
     this._reselectItems();
 
     this._items.forEach(removeFunction);
