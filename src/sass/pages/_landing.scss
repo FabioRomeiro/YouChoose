@@ -49,8 +49,17 @@
   
   &__content {
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &,.card {
       min-height: 327px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 415px;
     }
 
     .card__content {
@@ -180,6 +189,12 @@
       width: 100%;
 
       padding: 8px;
+
+      @media (min-width:480px) {
+        width: 70%;
+
+        margin: 0 auto;
+      }
 
       .editor-actions {
 
