@@ -1,16 +1,24 @@
 import { RestaurantController } from './controllers/RestaurantController';
 
+(function registServiceWorker(): void {
+  if ('serviceWorker' in navigator) {
+    
+    navigator.serviceWorker.register('../ServiceWorker.js');
+  }
+})()
+
 const controller = new RestaurantController();
 
-function _getModeMethod(buttonName: string): Function {
-  if (buttonName == 'add')
-    return controller.addMode;
-  else if (buttonName == 'edit')
-    return controller.editMode;
-  else if (buttonName == 'remove')
-    return controller.removeMode;
-  else 
-    return controller.menuMode;
+function _getModeMethod(buttonName: string): any {
+  
+  let methods: any = {
+    'add': controller.addMode,
+    'edit': controller.editMode,
+    'remove': controller.removeMode,
+    'menu': controller.menuMode  
+  };
+
+  return methods[buttonName];
 }
 
 document
