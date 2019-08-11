@@ -58,14 +58,62 @@
     }
 
     .card {
-      width: 100%;
+      width: 90%;
       max-width: 415px;
     }
 
     .card__content {
 
       height: 140px;
-      overflow: auto;  
+      overflow: auto; 
+      position: relative; 
+
+      .loader {
+
+        position: absolute;
+
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        left: calc(50% - 34px);
+        top: calc(50% - 10px);
+
+        &.running {
+          display: flex;
+        }
+
+        .circle {
+
+          @keyframes pulse {
+            0%, 100% {
+              opacity: .5;
+              transform: scale(1);
+            }
+            50% {
+              opacity: 1;
+              transform: scale(1.5); 
+            }
+          }
+
+          width: 10px;
+          height: 10px;
+
+          border-radius: 50px;
+          
+          background: $color-blue-2;
+          
+          margin: 0 4px;
+          
+          animation: pulse .75s ease-in-out infinite;
+
+          @for $i from 0 through 3 {
+            &:nth-child(#{$i + 1}) {
+              animation-delay: #{$i * 180}ms;
+            }
+          }
+        }
+      }
 
       .options-list {
 

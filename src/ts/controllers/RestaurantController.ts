@@ -18,6 +18,9 @@ export class RestaurantController {
   
   @domInject('[data-price-display]')
   private _priceDisplay: Element;
+  
+  @domInject('[data-loader]')
+  private _loader: Element;
 
   private _submitButtonLabel: Element;
 
@@ -32,6 +35,8 @@ export class RestaurantController {
   private _restaurantDao: RestaurantDAO;
 
   constructor() {
+
+    this._setLoader(true);
 
     ConnectionFactory
       .getConnection()
@@ -59,8 +64,16 @@ export class RestaurantController {
     this._updatePriceSlider();
   }
 
+  private _setLoader(status: boolean): void {
+    
+    let animationClass = 'running';
+    
+    this._loader.classList[status ? 'add' : 'remove'](animationClass);
+  }
+
   private _updateList() {
     this._restaurantsView.update(this._restaurants);
+    this._setLoader(false);
   }
 
   private _cleanUpFields(): void {
